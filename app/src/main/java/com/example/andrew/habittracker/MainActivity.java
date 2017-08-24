@@ -14,13 +14,16 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.example.andrew.habittracker.data.HabitContract;
+import com.example.andrew.habittracker.data.TaskDbHelper;
+
 public class MainActivity extends AppCompatActivity {
 
     private EditText mTaskEditText;
     private EditText mHourEditText;
     private Spinner mDateSpinner;
 
-    private int mDate = TaskEntry.DATE_UNKNOWN;
+    private int mDate = HabitContract.TaskEntry.DATE_PICK;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,28 +51,28 @@ public class MainActivity extends AppCompatActivity {
                 String selection = (String) parent.getItemAtPosition(position);
                 if (!TextUtils.isEmpty(selection)) {
                     if (selection.equals("Monday")) {
-                        mDate = TaskEntry.DATE_MONDAY;
+                        mDate = HabitContract.TaskEntry.DATE_MONDAY;
                     } else if (selection.equals("Tuesday")) {
-                        mDate = TaskEntry.DATE_TUESDAY;
+                        mDate = HabitContract.TaskEntry.DATE_TUESDAY;
                     } else if (selection.equals("Wednesday")) {
-                        mDate = TaskEntry.DATE_WEDNESDAY;
+                        mDate = HabitContract.TaskEntry.DATE_WEDNESDAY;
                     } else if (selection.equals("Thursday")) {
-                        mDate = TaskEntry.DATE_THURSDAY;
+                        mDate = HabitContract.TaskEntry.DATE_THURSDAY;
                     } else if (selection.equals("Friday")) {
-                        mDate = TaskEntry.DATE_FRIDAY;
+                        mDate = HabitContract.TaskEntry.DATE_FRIDAY;
                     } else if (selection.equals("Saturday")) {
-                        mDate = TaskEntry.DATE_SATURDAY;
+                        mDate = HabitContract.TaskEntry.DATE_SATURDAY;
                     } else if (selection.equals("Sunday")) {
-                        mDate = TaskEntry.DATE_SUNDAY;
+                        mDate = HabitContract.TaskEntry.DATE_SUNDAY;
                     } else {
-                        mDate = TaskEntry.DATE_PICK;
+                        mDate = HabitContract.TaskEntry.DATE_PICK;
                     }
                 }
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                mDate = TaskEntry.DATE_PICK;
+                mDate = HabitContract.TaskEntry.DATE_PICK;
             }
         });
     }
@@ -85,27 +88,26 @@ public class MainActivity extends AppCompatActivity {
 
         ContentValues values = new ContentValues();
 
-        values.put(TaskEntry.COLUMN_TASK_NAME, taskString);
-        values.put(TaskEntry.COLUMN_DATE, mDate);
-        values.put(TaskEntry.COLUMN_HOUR, time);
+        values.put(HabitContract.TaskEntry.COLUMN_TASK_NAME, taskString);
+        values.put(HabitContract.TaskEntry.COLUMN_DATE, mDate);
+        values.put(HabitContract.TaskEntry.COLUMN_HOUR, time);
 
-        long newRowId = db.insert(TaskEntry.TABLE_NAME, null, values);
+        long newRowId = db.insert(HabitContract.TaskEntry.TABLE_NAME, null, values);
 
-        if(newRowId == -1) {
+        if (newRowId == -1) {
             Toast.makeText(this, "Error with adding new task", Toast.LENGTH_SHORT).show();
-        }
-        else {
+        } else {
             Toast.makeText(this, "Task saved with row id: " + newRowId, Toast.LENGTH_SHORT).show();
         }
 
         @Override
-        public boolean onCreateOptionsMenu(Menu menu) {
+        public boolean onCreateOptionsMenu(Menu menu){
             getMenuInflater().inflate(R.menu.menu_editor, menu);
             return true;
         }
 
         @Override
-                public boolean onOptionsItemSelected(MenuItem item) {
+        public boolean onOptionsItemSelected (MenuItem item){
             switch (item.getItemId()) {
                 case R.id.action_save:
                     insertTask();

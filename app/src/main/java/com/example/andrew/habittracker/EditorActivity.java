@@ -32,7 +32,7 @@ public class EditorActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_editor);
 
         // Find all relevant views that we will need to read user input from
         mTaskEditText = (EditText) findViewById(R.id.edit_task_name);
@@ -43,30 +43,30 @@ public class EditorActivity extends AppCompatActivity {
     }
 
     private void setupSpinner() {
-        ArrayAdapter dateSpinnerAddapter = ArrayAdapter.createFromResource(this, R.array
+        ArrayAdapter dateSpinnerAdapter = ArrayAdapter.createFromResource(this, R.array
                 .array_date_options, android.R.layout.simple_spinner_item);
 
-        dateSpinnerAddapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
-        mDateSpinner.setAdapter(dateSpinnerAddapter);
+        dateSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
+        mDateSpinner.setAdapter(dateSpinnerAdapter);
 
         mDateSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String selection = (String) parent.getItemAtPosition(position);
                 if (!TextUtils.isEmpty(selection)) {
-                    if (selection.equals("Monday")) {
+                    if (selection.equals(getString(R.string.monday))) {
                         mDate = TaskEntry.DATE_MONDAY;
-                    } else if (selection.equals("Tuesday")) {
+                    } else if (selection.equals(getString(R.string.tuesday))) {
                         mDate = TaskEntry.DATE_TUESDAY;
-                    } else if (selection.equals("Wednesday")) {
+                    } else if (selection.equals(getString(R.string.wednesday))) {
                         mDate = TaskEntry.DATE_WEDNESDAY;
-                    } else if (selection.equals("Thursday")) {
+                    } else if (selection.equals(getString(R.string.thursday))) {
                         mDate = TaskEntry.DATE_THURSDAY;
-                    } else if (selection.equals("Friday")) {
+                    } else if (selection.equals(getString(R.string.friday))) {
                         mDate = TaskEntry.DATE_FRIDAY;
-                    } else if (selection.equals("Saturday")) {
+                    } else if (selection.equals(getString(R.string.saturday))) {
                         mDate = TaskEntry.DATE_SATURDAY;
-                    } else if (selection.equals("Sunday")) {
+                    } else if (selection.equals(getString(R.string.sunday))) {
                         mDate = TaskEntry.DATE_SUNDAY;
                     } else {
                         mDate = TaskEntry.DATE_PICK;

@@ -5,12 +5,11 @@ import android.provider.BaseColumns;
 
 public final class HabitContract {
 
-    private HabitContract() {
-    }
+    private HabitContract() {}
 
     public static final class TaskEntry implements BaseColumns {
 
-        public static final String TABLE_NAME = "chores";
+        public final static String TABLE_NAME = "tasks";
 
         public final static String _ID = BaseColumns._ID;
         public final static String COLUMN_TASK_NAME = "name";

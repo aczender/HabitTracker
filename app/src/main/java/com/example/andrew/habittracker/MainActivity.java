@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_catalog);
+        setContentView(R.layout.activity_main);
 
         // Setup FAB to open EditorActivity
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -48,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
      * the pets database.
      */
     private void displayDatabaseInfo() {
+        TaskDbHelper mDbHelper = new TaskDbHelper(this);
         // Create and/or open a database to read from it
         SQLiteDatabase db = mDbHelper.getReadableDatabase();
 
@@ -69,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
                 null,
                 null);
 
-        TextView displayView = (TextView) findViewById(R.id.text_view_pet);
+        TextView displayView = (TextView) findViewById(R.id.text_view_task);
         try {
             // Create a header in the Text View that looks like this:
             //
@@ -127,9 +128,8 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu options from the res/menu/menu_catalog.xml file.
         // This adds menu items to the app bar.
-        getMenuInflater().inflate(R.menu.menu_catalog, menu);
+        getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 

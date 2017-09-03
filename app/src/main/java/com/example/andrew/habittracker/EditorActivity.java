@@ -1,6 +1,5 @@
 package com.example.andrew.habittracker;
 
-
 import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -19,7 +18,6 @@ import android.widget.Toast;
 import com.example.andrew.habittracker.data.HabitContract.TaskEntry;
 import com.example.andrew.habittracker.data.TaskDbHelper;
 
-
 public class EditorActivity extends AppCompatActivity {
 
     private EditText mTaskEditText;
@@ -28,13 +26,11 @@ public class EditorActivity extends AppCompatActivity {
 
     private int mDate = TaskEntry.DATE_PICK;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editor);
 
-        // Find all relevant views that we will need to read user input from
         mTaskEditText = (EditText) findViewById(R.id.edit_task_name);
         mHourEditText = (EditText) findViewById(R.id.edit_hour);
         mDateSpinner = (Spinner) findViewById(R.id.spinner_date);
@@ -73,57 +69,58 @@ public class EditorActivity extends AppCompatActivity {
                     }
                 }
             }
+                @Override
+                public void onNothingSelected (AdapterView < ? > parent){
+                    mDate = TaskEntry.DATE_PICK;
+                }
+            });
+        }
 
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                mDate = TaskEntry.DATE_PICK;
+        private void insertTask () {
+            String taskString = mTaskEditText.getText().toString().trim();
+            String hourString = mHourEditText.getText().toString().trim();
+            int time = Integer.parseInt(hourString);
+
+            TaskDbHelper mDbHelper = new TaskDbHelper(this);
+
+            SQLiteDatabase db = mDbHelper.getWritableDatabase();
+
+            ContentValues values = new ContentValues();
+
+            values.put(TaskEntry.COLUMN_TASK_NAME, taskString);
+            values.put(TaskEntry.COLUMN_DATE, mDate);
+            values.put(TaskEntry.COLUMN_HOUR, time);
+
+            long newRowId = db.insert(TaskEntry.TABLE_NAME, null, values);
+
+            if (newRowId == -1) {
+                Toast.makeText(this, getString(R.string.adding_error), Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, getString(R.string.task_added) + newRowId, Toast
+                        .LENGTH_SHORT)
+                        .show();
             }
-        });
-    }
+        }
 
-    private void insertTask() {
-        String taskString = mTaskEditText.getText().toString().trim();
-        String hourString = mHourEditText.getText().toString().trim();
-        int time = Integer.parseInt(hourString);
+        @Override
+        public boolean onCreateOptionsMenu (Menu menu){
+            getMenuInflater().inflate(R.menu.menu_editor, menu);
+            return true;
+        }
 
-        TaskDbHelper mDbHelper = new TaskDbHelper(this);
-
-        SQLiteDatabase db = mDbHelper.getWritableDatabase();
-
-        ContentValues values = new ContentValues();
-
-        values.put(TaskEntry.COLUMN_TASK_NAME, taskString);
-        values.put(TaskEntry.COLUMN_DATE, mDate);
-        values.put(TaskEntry.COLUMN_HOUR, time);
-
-        long newRowId = db.insert(TaskEntry.TABLE_NAME, null, values);
-
-        if (newRowId == -1) {
-            Toast.makeText(this, "Error with adding new task", Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(this, "Task saved with row id: " + newRowId, Toast.LENGTH_SHORT).show();
+        @Override
+        public boolean onOptionsItemSelected (MenuItem item){
+            switch (item.getItemId()) {
+                case R.id.action_save:
+                    insertTask();
+                    finish();
+                    return true;
+                case R.id.action_delete:
+                    return true;
+                case android.R.id.home:
+                    NavUtils.navigateUpFromSameTask(this);
+                    return true;
+            }
+            return super.onOptionsItemSelected(item);
         }
     }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_editor, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_save:
-                insertTask();
-                finish();
-                return true;
-            case R.id.action_delete:
-                return true;
-            case android.R.id.home:
-                NavUtils.navigateUpFromSameTask(this);
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-}

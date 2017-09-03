@@ -10,5 +10,8 @@
     <string name="saturday">Saturday</string>
     <string name="sunday">Sunday</string>
 
+    <string name="adding_error">Error with adding new task</string>
+    <string name="task_added">Task saved with row id: </string>
+
 
 </resources>

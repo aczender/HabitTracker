@@ -43,17 +43,11 @@ public class MainActivity extends AppCompatActivity {
         displayDatabaseInfo();
     }
 
-    /**
-     * Temporary helper method to display information in the onscreen TextView about the state of
-     * the pets database.
-     */
     private void displayDatabaseInfo() {
         TaskDbHelper mDbHelper = new TaskDbHelper(this);
-        // Create and/or open a database to read from it
+
         SQLiteDatabase db = mDbHelper.getReadableDatabase();
 
-        // Perform this raw SQL query "SELECT * FROM pets"
-        // to get a Cursor that contains all rows from the pets table.
         String[] projection = {
                 TaskEntry._ID,
                 TaskEntry.COLUMN_TASK_NAME,
@@ -72,14 +66,6 @@ public class MainActivity extends AppCompatActivity {
 
         TextView displayView = (TextView) findViewById(R.id.text_view_task);
         try {
-            // Create a header in the Text View that looks like this:
-            //
-            // The pets table contains <number of rows in Cursor> pets.
-            // _id - name - breed - gender - weight
-            //
-            // In the while loop below, iterate through the rows of the cursor and display
-            // the information from each column in this order.
-
             displayView.setText("The chores table contains " + cursor.getCount() + " chores.\n\n");
             displayView.append(TaskEntry._ID + " - " +
                     TaskEntry.COLUMN_TASK_NAME + " - " +
@@ -123,7 +109,6 @@ public class MainActivity extends AppCompatActivity {
         values.put(TaskEntry.COLUMN_HOUR, 2);
 
         long newRowId = db.insert(TaskEntry.TABLE_NAME, null, values);
-
     }
 
     @Override

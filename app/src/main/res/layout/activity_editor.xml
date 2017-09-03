@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="4dp"
-    tools:context=".MainActivity">
-
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical"
+              android:padding="4dp"
+              tools:context=".MainActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -15,7 +14,7 @@
 
         <TextView
             style="@style/CategoryStyle"
-            android:text="Task" />
+            android:text="Task"/>
 
         <!-- Input fields -->
         <LinearLayout
@@ -25,16 +24,15 @@
             android:orientation="vertical"
             android:paddingLeft="4dp">
 
-
             <EditText
                 android:id="@+id/edit_task_name"
                 style="@style/EditorFieldStyle"
                 android:hint="what"
-                android:inputType="textCapWords" />
+                android:inputType="textCapWords"/>
         </LinearLayout>
     </LinearLayout>
 
-    <!-- Gender category -->
+    <!-- Date of the task -->
     <LinearLayout
         android:id="@+id/container_gender"
         android:layout_width="match_parent"
@@ -44,7 +42,7 @@
         <!-- Label -->
         <TextView
             style="@style/CategoryStyle"
-            android:text="Date" />
+            android:text="Date"/>
 
         <!-- Input field -->
         <LinearLayout
@@ -53,13 +51,12 @@
             android:layout_weight="2"
             android:orientation="vertical">
 
-
             <Spinner
                 android:id="@+id/spinner_date"
                 android:layout_width="wrap_content"
                 android:layout_height="48dp"
                 android:paddingRight="16dp"
-                android:spinnerMode="dropdown" />
+                android:spinnerMode="dropdown"/>
         </LinearLayout>
     </LinearLayout>
 
@@ -73,7 +70,7 @@
         <!-- Label -->
         <TextView
             style="@style/CategoryStyle"
-            android:text="Measurement (hours)" />
+            android:text="Measurement (hours)"/>
 
         <!-- Input fields -->
         <RelativeLayout
@@ -82,12 +79,12 @@
             android:layout_weight="2"
             android:paddingLeft="4dp">
 
-            <!-- Weight field -->
+            <!-- Hour field -->
             <EditText
                 android:id="@+id/edit_hour"
                 style="@style/EditorFieldStyle"
                 android:hint="How many hours"
-                android:inputType="number" />
+                android:inputType="number"/>
         </RelativeLayout>
     </LinearLayout>
 </LinearLayout>

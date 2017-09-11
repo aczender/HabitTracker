@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
         displayDatabaseInfo();
     }
 
-    private void displayDatabaseInfo() {
+    private Cursor readDataFromDB() {
         TaskDbHelper mDbHelper = new TaskDbHelper(this);
 
         SQLiteDatabase db = mDbHelper.getReadableDatabase();
@@ -63,40 +63,52 @@ public class MainActivity extends AppCompatActivity {
                 null,
                 null,
                 null);
+        return cursor;
+    }
 
-        TextView displayView = (TextView) findViewById(R.id.text_view_task);
-        try {
-            displayView.setText("The chores table contains " + cursor.getCount() + " chores.\n\n");
-            displayView.append(TaskEntry._ID + " - " +
-                    TaskEntry.COLUMN_TASK_NAME + " - " +
-                    TaskEntry.COLUMN_DATE + " - " +
-                    TaskEntry.COLUMN_HOUR + "\n");
+    private void displayDatabaseInfo() {
+        Cursor cursor = readDataFromDB();
+        if (cursor != null && cursor.getCount() > 0) {
 
-            // Figure out the index of each column
-            int idColumnIndex = cursor.getColumnIndex(TaskEntry._ID);
-            int taskColumnIndex = cursor.getColumnIndex(TaskEntry.COLUMN_TASK_NAME);
-            int dateColumnIndex = cursor.getColumnIndex(TaskEntry.COLUMN_DATE);
-            int hourColumnIndex = cursor.getColumnIndex(TaskEntry.COLUMN_HOUR);
+            TextView displayView = (TextView) findViewById(R.id.text_view_task);
+            try
 
-            // Iterate through all the returned rows in the cursor
-            while (cursor.moveToNext()) {
-                // Use that index to extract the String or Int value of the word
-                // at the current row the cursor is on.
-                int currentID = cursor.getInt(idColumnIndex);
-                String currentTask = cursor.getString(taskColumnIndex);
-                String currentDate = cursor.getString(dateColumnIndex);
-                int currentHour = cursor.getInt(hourColumnIndex);
-                // Display the values from each column of the current row in the cursor in the TextView
-                displayView.append(("\n" + currentID + " - " +
-                        currentTask + " - " +
-                        currentDate + " - " +
-                        currentHour));
+            {
+                displayView.setText("The chores table contains " + cursor.getCount() + " chores.\n\n");
+                displayView.append(TaskEntry._ID + " - " +
+                        TaskEntry.COLUMN_TASK_NAME + " - " +
+                        TaskEntry.COLUMN_DATE + " - " +
+                        TaskEntry.COLUMN_HOUR + "\n");
+
+                // Figure out the index of each column
+                int idColumnIndex = cursor.getColumnIndex(TaskEntry._ID);
+                int taskColumnIndex = cursor.getColumnIndex(TaskEntry.COLUMN_TASK_NAME);
+                int dateColumnIndex = cursor.getColumnIndex(TaskEntry.COLUMN_DATE);
+                int hourColumnIndex = cursor.getColumnIndex(TaskEntry.COLUMN_HOUR);
+
+                // Iterate through all the returned rows in the cursor
+                while (cursor.moveToNext()) {
+                    // Use that index to extract the String or Int value of the word
+                    // at the current row the cursor is on.
+                    int currentID = cursor.getInt(idColumnIndex);
+                    String currentTask = cursor.getString(taskColumnIndex);
+                    String currentDate = cursor.getString(dateColumnIndex);
+                    int currentHour = cursor.getInt(hourColumnIndex);
+                    // Display the values from each column of the current row in the cursor in the TextView
+                    displayView.append(("\n" + currentID + " - " +
+                            currentTask + " - " +
+                            currentDate + " - " +
+                            currentHour));
+                }
+            } finally
+
+            {
+                // Always close the cursor when you're done reading from it. This releases all its
+                // resources and makes it invalid.
+                cursor.close();
             }
-        } finally {
-            // Always close the cursor when you're done reading from it. This releases all its
-            // resources and makes it invalid.
-            cursor.close();
         }
+
     }
 
     private void insertTask() {
